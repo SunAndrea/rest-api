@@ -1,5 +1,5 @@
 const createError = require("../helpers/createError");
-const Contact = require("../models/contacts/contacts");
+const Contact = require("../models/contacts/contacts.model");
 
 const findAll = async () => {
   return await Contact.find();
