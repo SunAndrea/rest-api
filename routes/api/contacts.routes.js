@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const { createValidator } = require("express-joi-validation");
 const controllerWrapper = require("../../helpers/controllerWrapper");
 
 const {
@@ -9,14 +8,16 @@ const {
   removeContact,
   addContact,
   updateContactById,
+  updateStatusContact,
 } = require("../../controllers/contacts.controller");
 
 const {
   contactAddSchema,
   contactUpdateSchema,
+  contactUpdateStatusSchema,
 } = require("../../schemas/contacts.schema");
+const validationMiddleware = require("../../middlewares/validation.middlewares");
 
-const validator = createValidator();
 
 router.get("/", controllerWrapper(getListContacts));
 
@@ -26,14 +27,20 @@ router.delete("/:id", controllerWrapper(removeContact));
 
 router.post(
   "/",
-  validator.body(contactAddSchema),
+  validationMiddleware(contactAddSchema),
   controllerWrapper(addContact)
 );
 
 router.put(
   "/:id",
-  validator.body(contactUpdateSchema),
+  validationMiddleware(contactUpdateSchema),
   controllerWrapper(updateContactById)
+);
+
+router.patch(
+  "/:id/favorite",
+  validationMiddleware(contactUpdateStatusSchema),
+  controllerWrapper(updateStatusContact)
 );
 
 module.exports = router;
