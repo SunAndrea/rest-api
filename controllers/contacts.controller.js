@@ -1,10 +1,10 @@
 const createError = require("../helpers/createError");
 
-const contactsServices = require("../services/contacts.services");
+const { contactsServices } = require("../services/index");
 
 const getListContacts = async (req, res, next) => {
   const contacts = await contactsServices.findAll();
-  res.json(contacts);
+  res.status(200).json(contacts);
 };
 
 const getContactById = async (req, res) => {

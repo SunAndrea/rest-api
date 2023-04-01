@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const controllerWrapper = require("../../helpers/controllerWrapper");
-
 const {
   getListContacts,
   getContactById,
@@ -17,7 +16,6 @@ const {
   contactUpdateStatusSchema,
 } = require("../../schemas/contacts.schema");
 const validationMiddleware = require("../../middlewares/validation.middlewares");
-
 
 router.get("/", controllerWrapper(getListContacts));
 
