@@ -1,8 +1,8 @@
 const createError = require("../helpers/createError");
-const Contact = require("../models/contacts/contacts");
+const Contact = require("../models/contacts/contacts.model");
 
-const findAll = async () => {
-  return await Contact.find();
+const findAll = async (data) => {
+  return await Contact.find(data).populate("owner", "-password");
 };
 
 const findOne = async (id) => {

@@ -2,18 +2,24 @@ require("dotenv").config();
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-const router = require("./routes/api/contacts.routes");
+const {
+  contactsRouter,
+  authRouter,
+  userRouter,
+} = require("./routes/api/index");
+// const router = require("./routes/api/contacts.routes");
 const errorFilter = require("./middlewares/errorFilter.middleware");
 
 const app = express();
-// console.log(process.env);
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/contacts", router);
+app.use("/api/contacts", contactsRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/users", userRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
