@@ -12,13 +12,13 @@ const findAll = async () => {
 };
 
 const findById = async (id) => {
-  console.log(id);
   return await User.findById(id);
 };
 
 const updateById = async (id, updatedUser) => {
-  // return
-  await User.findByIdAndUpdate(id, updatedUser);
+  return await User.findByIdAndUpdate(id, updatedUser, { new: true }).select(
+    "-password"
+  );
 };
 
 const saveToken = async (id, token) => {
@@ -36,7 +36,6 @@ const register = async (user) => {
     const dbUser = (
       await User.create({ ...user, password: passwordHash })
     ).toObject();
-    console.log(dbUser);
 
     const { password, ...newUser } = dbUser;
     return newUser;
@@ -51,7 +50,7 @@ const login = async ({ email, password }) => {
     !existingUser ||
     !(await compareHashes(password, existingUser.password))
   ) {
-    throw createError(401, "Email and/or password do not match");
+    throw createError(401, "Email and/or password is wrong");
   }
   const id = existingUser._id;
 
@@ -66,7 +65,6 @@ const login = async ({ email, password }) => {
 
 const logout = async (id) => {
   const existingUser = await findById(id);
-  // console.log(existingUser);
   if (!existingUser) {
     throw createError(404, "User not found");
   }

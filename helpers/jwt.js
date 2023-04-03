@@ -8,10 +8,6 @@ const sign = (payload) => {
 
 const verify = (token) => {
   try {
-    console.log(`token`, token);
-    console.log(`secret`, JWT_SECRET);
-    const abc = jwt.verify(token, JWT_SECRET);
-    console.log(`abc`, abc);
     return jwt.verify(token, JWT_SECRET);
   } catch (error) {
     console.log(error);

@@ -16,8 +16,9 @@ const {
   contactUpdateStatusSchema,
 } = require("../../schemas/contacts.schema");
 const validationMiddleware = require("../../middlewares/validation.middlewares");
+const authorizeMiddleware = require("../../middlewares/authorize.middleware");
 
-router.get("/", controllerWrapper(getListContacts));
+router.get("/", authorizeMiddleware, controllerWrapper(getListContacts));
 
 router.get("/:id", controllerWrapper(getContactById));
 
@@ -25,6 +26,7 @@ router.delete("/:id", controllerWrapper(removeContact));
 
 router.post(
   "/",
+  authorizeMiddleware,
   validationMiddleware(contactAddSchema),
   controllerWrapper(addContact)
 );

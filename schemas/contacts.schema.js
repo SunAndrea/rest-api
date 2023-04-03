@@ -21,9 +21,6 @@ const contactUpdateSchema = joi
   })
   .or("name", "email", "phone")
   .required();
-// .messages({
-//   "string.required": ` missing  field`,
-// });
 
 const contactUpdateStatusSchema = joi
   .object({
