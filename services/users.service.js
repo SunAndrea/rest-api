@@ -1,3 +1,4 @@
+const gravatar = require("gravatar");
 const { hashString, compareHashes } = require("../helpers/bcrypt");
 const createError = require("../helpers/createError");
 const { sign } = require("../helpers/jwt");
@@ -33,8 +34,9 @@ const register = async (user) => {
     }
 
     const passwordHash = await hashString(user.password);
+    const avatarURL = gravatar.url(user.email);
     const dbUser = (
-      await User.create({ ...user, password: passwordHash })
+      await User.create({ ...user, avatarURL, password: passwordHash })
     ).toObject();
 
     const { password, ...newUser } = dbUser;
