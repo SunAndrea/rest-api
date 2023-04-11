@@ -2,9 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-// const multer = require("multer");
-// const path = require("path");
-// const fs = require("fs/promises");
+
 const {
   contactsRouter,
   authRouter,
