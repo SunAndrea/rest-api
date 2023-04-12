@@ -1,5 +1,3 @@
-// const { createError } = require("../helpers/createError");
-
 const { usersService } = require("../services/index");
 
 const register = async (req, res, next) => {

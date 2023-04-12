@@ -3,9 +3,11 @@ const {
   findAll,
   findCurrentUser,
   updateUserStatus,
+  updateUserAvatar,
 } = require("../../controllers/users.controller");
 const controllerWrapper = require("../../helpers/controllerWrapper");
 const authorizeMiddleware = require("../../middlewares/authorize.middleware");
+const uploadMiddleware = require("../../middlewares/upload.middleware");
 const validationMiddleware = require("../../middlewares/validation.middlewares");
 const { userUpdateSchema } = require("../../schemas/user.schema");
 
@@ -19,4 +21,11 @@ router.patch(
   validationMiddleware(userUpdateSchema),
   controllerWrapper(updateUserStatus)
 );
+router.patch(
+  "/avatars",
+  authorizeMiddleware,
+  uploadMiddleware.single("image"),
+  controllerWrapper(updateUserAvatar)
+);
+
 module.exports = router;
