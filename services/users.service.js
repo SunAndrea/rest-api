@@ -1,8 +1,12 @@
 const gravatar = require("gravatar");
+const ObjectID = require("bson-objectid");
+const User = require("../models/contacts/users.model");
 const { hashString, compareHashes } = require("../helpers/bcrypt");
 const createError = require("../helpers/createError");
 const { sign } = require("../helpers/jwt");
-const User = require("../models/contacts/users.model");
+const sendEmail = require("../helpers/sendEmail");
+
+const { BASE_URL, META_EMAIL } = process.env;
 
 const findByEmail = async (email) => {
   return await User.findOne({ email });
@@ -35,10 +39,23 @@ const register = async (user) => {
 
     const passwordHash = await hashString(user.password);
     const avatarURL = gravatar.url(user.email);
+    const verificationCode = ObjectID();
     const dbUser = (
-      await User.create({ ...user, avatarURL, password: passwordHash })
+      await User.create({
+        ...user,
+        avatarURL,
+        password: passwordHash,
+        verificationCode,
+      })
     ).toObject();
 
+    const verifyEmail = {
+      from: META_EMAIL,
+      to: user.email,
+      subject: "Verify email",
+      html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationCode}"> Click to verify email</a>`,
+    };
+    await sendEmail(verifyEmail);
     const { password, ...newUser } = dbUser;
     return newUser;
   } catch (error) {
