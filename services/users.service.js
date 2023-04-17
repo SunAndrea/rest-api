@@ -8,8 +8,8 @@ const sendEmail = require("../helpers/sendEmail");
 
 const { BASE_URL, META_EMAIL } = process.env;
 
-const findByEmail = async (data) => {
-  return await User.findOne({ data });
+const findByEmail = async (email) => {
+  return await User.findOne({ email });
 };
 
 const findAll = async () => {
