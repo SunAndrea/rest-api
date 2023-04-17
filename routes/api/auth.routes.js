@@ -5,6 +5,7 @@ const {
   register,
   login,
   logout,
+  verifyEmail,
 } = require("../../controllers/auth.controller");
 const { registerSchema, loginSchema } = require("../../schemas/auth.schema");
 const authorizeMiddleware = require("../../middlewares/authorize.middleware");
@@ -17,6 +18,7 @@ router.post(
   validator.body(registerSchema),
   controllerWrapper(register)
 );
+router.get("verify/:verificationCode", verifyEmail);
 
 router.post("/login", validator.body(loginSchema), controllerWrapper(login));
 

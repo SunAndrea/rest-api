@@ -8,8 +8,8 @@ const sendEmail = require("../helpers/sendEmail");
 
 const { BASE_URL, META_EMAIL } = process.env;
 
-const findByEmail = async (email) => {
-  return await User.findOne({ email });
+const findByEmail = async (data) => {
+  return await User.findOne({ data });
 };
 
 const findAll = async () => {
@@ -70,6 +70,10 @@ const login = async ({ email, password }) => {
     !(await compareHashes(password, existingUser.password))
   ) {
     throw createError(401, "Email and/or password is wrong");
+  }
+
+  if (!existingUser.verify) {
+    throw createError(401, "User is not verified");
   }
   const id = existingUser._id;
 
