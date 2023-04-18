@@ -38,6 +38,7 @@ const updateUserAvatar = async (req, res, next) => {
     const resultUpload = path.join(
       __dirname,
       "../",
+
       "public",
       "avatars",
       `${id}_${originalname}`
